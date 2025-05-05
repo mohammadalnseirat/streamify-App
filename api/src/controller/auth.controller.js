@@ -130,3 +130,64 @@ export const logOutUser = async (req, res, next) => {
     next(error);
   }
 };
+
+//! 4- Function to onboarding a user:
+export const onboardingUser = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { fullName, bio, location, nativeLanguage, learningLanguage } =
+      req.body;
+    //! validate the inputs:
+    if (
+      !fullName ||
+      !bio ||
+      !location ||
+      !nativeLanguage ||
+      !learningLanguage
+    ) {
+      return res.status(400).json({
+        message: "All fields are required",
+        missingFields: [
+          !fullName && "fullName",
+          !bio && "bio",
+          !location && "location",
+          !nativeLanguage && "nativeLanguage",
+          !learningLanguage && "learningLanguage",
+        ].filter(Boolean),
+      });
+    }
+    //! update the user:
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        ...req.body,
+        isOnboarded: true,
+      },
+      {
+        new: true,
+      }
+    ).select("-password");
+    if (!updatedUser) {
+      return next(handleError(404, "User not found"));
+    }
+    //! update the user in stream:
+    try {
+      await upsertUserStream({
+        id: updatedUser._id,
+        name: updatedUser.fullName,
+        image: updatedUser.profilePicture || "",
+      });
+      console.log(`Stream user updated for ${updatedUser.fullName}`);
+    } catch (error) {
+      console.error("Error updating stream user:", error);
+    }
+    //! return the updated user:
+    return res.status(200).json({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error in onboarding user controller:", error);
+    next(error);
+  }
+};
