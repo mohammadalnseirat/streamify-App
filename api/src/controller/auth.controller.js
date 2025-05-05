@@ -34,7 +34,7 @@ export const signUpUser = async (req, res, next) => {
       return next(handleError(400, "Invalid email address"));
     }
 
-    const existingUser = await User.findOne({ email })
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return next(
         handleError(400, "Email already exists, please use a diffrent one")
@@ -45,22 +45,21 @@ export const signUpUser = async (req, res, next) => {
     const idx = Math.floor(Math.random() * 100) + 1;
     const randomProfilePicture = `https://avatar.iran.liara.run/public/${idx}.png`;
 
-
     //! create new User:
     const newUser = await User.create({
       fullName,
       email,
       password,
       profilePicture: randomProfilePicture,
-    })
+    });
 
     //! create user in stream:
     try {
       await upsertUserStream({
         id: newUser._id.toString(),
         name: newUser.fullName,
-        image: newUser.profilePicture || '',
-      })
+        image: newUser.profilePicture || "",
+      });
 
       console.log(`Stream user created for ${newUser.fullName}`);
     } catch (error) {
@@ -77,7 +76,7 @@ export const signUpUser = async (req, res, next) => {
         profilePicture: newUser.profilePicture,
       });
     } else {
-      return next(handleError(401, "Invalid user data"));
+      return next(handleError(500, "Invalid user data"));
     }
   } catch (error) {
     console.error("Error in sign up user controller:", error);
@@ -88,6 +87,30 @@ export const signUpUser = async (req, res, next) => {
 //! 2- Function to log in a user:
 export const logInUser = async (req, res, next) => {
   try {
+    const { email, password } = req.body;
+    if (!email || !password || email === "" || password === "") {
+      return next(handleError(403, "All fields are required"));
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(
+        handleError(401, "Invalid email or Password, Please try again later!")
+      );
+    }
+
+    const isMatchPassword = await user.matchPassword(password);
+    if (!isMatchPassword) {
+      return next(handleError(401, "Invalid email or Password"));
+    }
+
+    //! generate token:
+    if (user) {
+      generateTokenAndSetCookie(user._id, res);
+      res.status(200).json({ success: true, user });
+    } else {
+      return next(handleError(401, "Invalid Credentials"));
+    }
   } catch (error) {
     console.error("Error in log in user controller:", error);
     next(error);
