@@ -15,4 +15,10 @@ router.post("/log-out", logOutUser);
 
 router.post("/on-boarding", protectedRoute, onboardingUser);
 
+router.get("/me", protectedRoute, (req, res) => {
+  return res.status(200).json({
+    user: req.user,
+  });
+});
+
 export default router;
