@@ -51,7 +51,9 @@ export const sendFriendRequest = async (req, res, next) => {
     const { id: recipientId } = req.params;
 
     if (myId === recipientId) {
-      return next(handleError(400, "You can't send friend request to yourself"));
+      return next(
+        handleError(400, "You can't send friend request to yourself")
+      );
     }
 
     const recipient = await User.findById(recipientId);
@@ -68,8 +70,8 @@ export const sendFriendRequest = async (req, res, next) => {
     const existingRequest = await FriendRequest.findOne({
       $or: [
         { sender: myId, recipient: recipientId },
-        { sender: recipientId, recipient: myId }
-      ]
+        { sender: recipientId, recipient: myId },
+      ],
     });
 
     if (existingRequest) {
@@ -89,3 +91,84 @@ export const sendFriendRequest = async (req, res, next) => {
     next(error);
   }
 };
+
+//! 4- Function to accept friend request:
+export const acceptFriendRequest = async (req, res, next) => {
+  try {
+    const { id: requestId } = req.params;
+    const currentUserId = req.user._id;
+
+    //! check if the request exists:
+    const friendRequest = await FriendRequest.findById(requestId);
+    if (!friendRequest) {
+      return next(handleError(404, "Friend request not found"));
+    }
+
+    // ! Verify the current user is the recipient
+    if (friendRequest.recipient.toString() !== currentUserId) {
+      return next(
+        handleError(403, "You are not authorized to accept this request")
+      );
+    }
+
+    if (friendRequest.status === "accepted") {
+      return next(handleError(400, "Friend request already accepted"));
+    }
+
+    //! update the request status:
+    friendRequest.status = "accepted";
+    await friendRequest.save();
+
+    // ! Add each other to friends list
+    // $addToSet: adds elements to an array only if they do not already exist.
+    await User.findByIdAndUpdate(friendRequest.sender, {
+      $addToSet: { friends: friendRequest.recipient },
+    });
+    await User.findByIdAndUpdate(friendRequest.recipient, {
+      $addToSet: { friends: friendRequest.sender },
+    });
+
+    //! send response:
+    return res
+      .status(200)
+      .json({ message: "Friend request accepted successfully" });
+  } catch (error) {
+    console.error("Error in acceptFriendRequest controller: ", error);
+    next(error);
+  }
+};
+
+
+
+
+
+//  5- Function to reject friend request:
+// export const rejectFriendRequest = async (req, res, next) => {
+//   try {
+//     const { id: requestId } = req.params;
+//     const currentUserId = req.user._id;
+
+//     //! check if the request exists:
+//     const friendRequest = await FriendRequest.findById(requestId);
+//     if (!friendRequest) {
+//       return next(handleError(404, "Friend request not found"));
+//     }
+
+//     // ! Verify the current user is the recipient
+//     if (friendRequest.recipient.toString() !== currentUserId) {
+//       return next(handleError(403, "You are not authorized to reject this request"));
+//     }
+
+//     //! update the request status:
+//     friendRequest.status = "rejected";
+//     await friendRequest.save();
+
+//     //! send response:
+//     return res
+//       .status(200)
+//       .json({ message: "Friend request rejected successfully" });
+//   } catch (error) {
+//     console.error("Error in rejectFriendRequest controller: ", error);
+//     next(error);
+//   }
+// };
