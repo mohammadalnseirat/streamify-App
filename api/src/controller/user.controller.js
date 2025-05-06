@@ -138,9 +138,37 @@ export const acceptFriendRequest = async (req, res, next) => {
   }
 };
 
+//! 6- Function to get friend requests:
+export const getFriendRequests = async (req, res, next) => {
+  try {
+    //! get the pending friend requests:
+    const incomingFriendRequests = await FriendRequest.find({
+      recipient: req.user._id,
+      status: "pending",
+    }).populate(
+      "sender",
+      "fullName profilePicture nativeLanguage learningLanguage"
+    );
 
+    //! get the accepted friend requests:
+    const acceptedFriendRequests = await FriendRequest.find({
+      sender: req.user._id,
+      status: "accepted",
+    }).populate(
+      "recipient",
+      "fullName profilePicture"
+    );
 
-
+    //! send response:
+    return res.status(200).json({
+      incomingFriendRequests,
+      acceptedFriendRequests,
+    });
+  } catch (error) {
+    console.error("Error in getFriendRequests controller: ", error);
+    next(error);
+  }
+};
 
 //  5- Function to reject friend request:
 // export const rejectFriendRequest = async (req, res, next) => {

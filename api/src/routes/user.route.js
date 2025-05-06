@@ -2,6 +2,7 @@ import { Router } from "express";
 import { protectedRoute } from "../middlewares/auth.middleware.js";
 import {
   acceptFriendRequest,
+  getFriendRequests,
   getMyFriends,
   getRecommendedUsers,
   sendFriendRequest,
@@ -18,5 +19,7 @@ router.post("/friend-request/:id", sendFriendRequest);
 router.put("/friend-request/:id/accept", acceptFriendRequest);
 
 //TODO: add route to reject friend request
+
+router.get("/friend-requests", getFriendRequests);
 
 export default router;
