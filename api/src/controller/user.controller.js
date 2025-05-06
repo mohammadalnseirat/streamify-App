@@ -138,6 +138,38 @@ export const acceptFriendRequest = async (req, res, next) => {
   }
 };
 
+// ! 5- Function to reject friend request:
+export const rejectFriendRequest = async (req, res, next) => {
+  try {
+    const { id: requestId } = req.params;
+    const currentUserId = req.user._id;
+
+//     //! check if the request exists:
+    const friendRequest = await FriendRequest.findById(requestId);
+    if (!friendRequest) {
+      return next(handleError(404, "Friend request not found"));
+    }
+
+    // ! Verify the current user is the recipient
+    if (friendRequest.recipient.toString() !== currentUserId) {
+      return next(handleError(403, "You are not authorized to reject this request"));
+    }
+
+//     //! update the request status:
+    friendRequest.status = "rejected";
+    await friendRequest.save();
+
+//     //! send response:
+    return res
+      .status(200)
+      .json({ message: "Friend request rejected successfully" });
+  } catch (error) {
+    console.error("Error in rejectFriendRequest controller: ", error);
+    next(error);
+  }
+};
+
+
 //! 6- Function to get friend requests:
 export const getFriendRequests = async (req, res, next) => {
   try {
@@ -189,33 +221,3 @@ export const getOutgoingFriendRequests = async (req, res, next) => {
   }
 };
 
-//  5- Function to reject friend request:
-// export const rejectFriendRequest = async (req, res, next) => {
-//   try {
-//     const { id: requestId } = req.params;
-//     const currentUserId = req.user._id;
-
-//     //! check if the request exists:
-//     const friendRequest = await FriendRequest.findById(requestId);
-//     if (!friendRequest) {
-//       return next(handleError(404, "Friend request not found"));
-//     }
-
-//     // ! Verify the current user is the recipient
-//     if (friendRequest.recipient.toString() !== currentUserId) {
-//       return next(handleError(403, "You are not authorized to reject this request"));
-//     }
-
-//     //! update the request status:
-//     friendRequest.status = "rejected";
-//     await friendRequest.save();
-
-//     //! send response:
-//     return res
-//       .status(200)
-//       .json({ message: "Friend request rejected successfully" });
-//   } catch (error) {
-//     console.error("Error in rejectFriendRequest controller: ", error);
-//     next(error);
-//   }
-// };
