@@ -170,6 +170,25 @@ export const getFriendRequests = async (req, res, next) => {
   }
 };
 
+//! 7- Function to get outgoing friend requests:
+export const getOutgoingFriendRequests = async (req, res, next) => {
+  try {
+    const outgoingFriendRequests = await FriendRequest.find({
+      sender: req.user._id,
+      status: "pending",
+    }).populate(
+      "recipient",
+      "fullName profilePic nativeLanguage learningLanguage"
+    );
+
+    //! send response:
+    return res.status(200).json(outgoingFriendRequests);
+  } catch (error) {
+    console.error("Error in getOutgoingFriendRequests controller: ", error);
+    next(error);
+  }
+};
+
 //  5- Function to reject friend request:
 // export const rejectFriendRequest = async (req, res, next) => {
 //   try {

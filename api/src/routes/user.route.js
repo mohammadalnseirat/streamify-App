@@ -4,6 +4,7 @@ import {
   acceptFriendRequest,
   getFriendRequests,
   getMyFriends,
+  getOutgoingFriendRequests,
   getRecommendedUsers,
   sendFriendRequest,
 } from "../controller/user.controller.js";
@@ -21,5 +22,6 @@ router.put("/friend-request/:id/accept", acceptFriendRequest);
 //TODO: add route to reject friend request
 
 router.get("/friend-requests", getFriendRequests);
+router.get('/outgoing-friend-requests', getOutgoingFriendRequests)
 
 export default router;
