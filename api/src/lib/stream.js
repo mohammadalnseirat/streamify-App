@@ -10,7 +10,6 @@ if (!streamApiKey || !streamApiSecret) {
 
 const streamClient = StreamChat.getInstance(streamApiKey, streamApiSecret);
 
-
 //! 1- Function to create or update user in the stream:
 export const upsertUserStream = async (userData) => {
   try {
@@ -19,4 +18,15 @@ export const upsertUserStream = async (userData) => {
   } catch (error) {
     console.error("Error upserting user in stream:", error);
   }
-}
+};
+
+//! 2- Function to generate stream token:
+export const generateStreamToken = async (userId) => {
+  try {
+    const userIdStr = userId.toString();
+    return streamClient.createToken(userIdStr);
+  } catch (error) {
+    console.error("Error generating stream token:", error);
+    throw error;
+  }
+};
