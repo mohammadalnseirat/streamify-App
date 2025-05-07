@@ -1,4 +1,4 @@
 import Navbar from "./Navbar";
-
-export { Navbar };
+import LoaderPage from "./LoaderPage";
+export { Navbar, LoaderPage };
 
