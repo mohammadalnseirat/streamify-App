@@ -1,9 +1,7 @@
 import { Eye, EyeOff, ShipWheelIcon } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signup } from "../lib/api";
-import { toast } from "react-toastify";
+import useSignUp from "../hooks/useSignUp";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -11,24 +9,9 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const queryClient = useQueryClient();
-  const {
-    mutate: signupMutation,
-    isPending,
-    error,
-  } = useMutation({
-    mutationFn: signup,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      toast.success("Account created successfully! Welcome to Stremify 🎉");
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || "Something went wrong!");
-    },
-  });
+  const { signupMutation, isPending } = useSignUp();
 
   const handleSignUpUser = (e) => {
     e.preventDefault();
@@ -160,10 +143,7 @@ const SignUpPage = () => {
                     </label>
                   </div>
                 </div>
-                <button 
-                  className="btn btn-primary w-full" 
-                  disabled={isPending}
-                >
+                <button className="btn btn-primary w-full" disabled={isPending}>
                   {isPending ? (
                     <>
                       <span>Loading...</span>

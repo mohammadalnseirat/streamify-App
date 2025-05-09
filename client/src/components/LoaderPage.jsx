@@ -2,7 +2,7 @@ import { ShipWheelIcon } from "lucide-react";
 
 const LoaderPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div data-theme="forest" className="flex items-center justify-center h-screen">
       <ShipWheelIcon className="size-10 animate-spin text-primary" />
     </div>
   );
