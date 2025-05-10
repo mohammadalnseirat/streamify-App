@@ -1,3 +1,6 @@
+import { BellIcon, HomeIcon, UsersIcon } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
+
 export const THEMES = [
   {
     name: "light",
@@ -195,3 +198,27 @@ export const LANGUAGE_TO_FLAG = {
   turkish: "tr",
   dutch: "nl",
 };
+
+ export const SIDEBAR_LINKS = [
+   {
+     id: uuidv4(),
+     label: "Home",
+     href: "/",
+     icon: HomeIcon,
+     path: "/",
+   },
+   {
+     id: uuidv4(),
+     label: "Friends",
+     href: "/friends",
+     icon: UsersIcon,
+     path: "/friends",
+   },
+   {
+     id: uuidv4(),
+     label: "Notifications",
+     href: "/notifications",
+     icon: BellIcon,
+     path: "/notifications",
+   },
+ ];

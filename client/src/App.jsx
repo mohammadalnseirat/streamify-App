@@ -8,15 +8,16 @@ import {
   OnboardingPage,
   SignUpPage,
 } from "./pages";
-// import { Navbar } from "./components";
 import ToastifyContainer from "./components/ToastNotificatation";
-import { LoaderPage } from "./components";
+import { Layout, LoaderPage } from "./components";
 import useAuthUser from "./hooks/useAuthUser";
 import NotFoundPage from "./pages/404";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
   //!get the Authenticated User:
   const { isLoading, authUser } = useAuthUser();
+  const { theme } = useThemeStore();
   //! check if there is a loading state:
   if (isLoading) {
     return <LoaderPage />;
@@ -25,14 +26,15 @@ const App = () => {
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
   return (
-    <div className="h-screen" data-theme="dark">
-      {/* <Navbar /> */}
+    <div className="h-screen" data-theme={theme}>
       <Routes>
         <Route
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/log-in" : "/onboarding"} />
             )

@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
 import LoaderPage from "./LoaderPage";
-export { Navbar, LoaderPage };
+import Layout from "./Layout";
+export { Navbar, LoaderPage, Layout };
 

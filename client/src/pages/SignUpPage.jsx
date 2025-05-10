@@ -23,14 +23,14 @@ const SignUpPage = () => {
       className="min-h-screen py-10 sm:py-0 flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
-      <div className="border border-primary/50 flex flex-col lg:flex-row w-full max-w-5xl mx-auto rounded-xl shadow-xl bg-base-100 overflow-hiiden">
+      <div className="border border-primary/50 flex flex-col lg:flex-row w-full max-w-5xl mx-auto rounded-xl shadow-md shadow-primary bg-base-100 overflow-hiiden">
         {/* Left Side start Here */}
         <div className="w-full lg:w-1/2 flex flex-col p-4 sm:p-8">
           {/* Logo */}
           <div className="flex items-center justify-start gap-2 mb-4">
             <ShipWheelIcon className="size-9 text-primary animate-spin-slow" />
             <span className="text-3xl font-[400] font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider shadow-lg">
-              Stremify
+              Streamify
             </span>
           </div>
 
@@ -143,11 +143,19 @@ const SignUpPage = () => {
                     </label>
                   </div>
                 </div>
-                <button className="btn btn-primary w-full" disabled={isPending}>
+                <button
+                  className="btn btn-primary w-full"
+                  disabled={
+                    isPending ||
+                    !formData.fullName ||
+                    !formData.email ||
+                    !formData.password
+                  }
+                >
                   {isPending ? (
                     <>
                       <span>Loading...</span>
-                      <ShipWheelIcon className="size-4 animate-spin text-red-500" />
+                      <ShipWheelIcon className="size-4 animate-spin text-yellow-500" />
                     </>
                   ) : (
                     "Create Account"

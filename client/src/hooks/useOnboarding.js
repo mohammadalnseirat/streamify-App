@@ -9,7 +9,7 @@ const useOnboarding = () => {
     mutationFn: completeOnboarding,
     onSuccess: () => {
       toast.success("Onboarding completed successfully!");
-      queryClient.invalidateQueries({ queryKey: ["auth-user"] });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Something went wrong!");
