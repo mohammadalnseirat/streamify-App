@@ -1,30 +1,31 @@
 import { toast } from "react-toastify";
 import useAuthUser from "../hooks/useAuthUser";
 import { Link, useLocation, useNavigate } from "react-router";
-import { BellIcon, LogOutIcon, MenuIcon, ShipWheelIcon } from "lucide-react";
+import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../lib/api";
 import ThemeSelector from "./ThemeSelector";
+import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
   const { pathname } = useLocation();
   const isChatPage = pathname.startsWith("/chat");
-  const navigate = useNavigate();
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const { mutate: logoutUserMutation, isPending } = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      toast.success("User Logged out successfully");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      navigate("/log-in");
-    },
-    onError: (error) => {
-      toast.error(error.response.data.message || "Something went wrong");
-    },
-  });
+  // const { mutate: logoutUserMutation, isPending } = useMutation({
+  //   mutationFn: logout,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["authUser"] });
+  //     toast.success("User Logged out successfully");
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.response.data.message || "Something went wrong");
+  //   },
+  // });
+
+  const { logoutUserMutation, isPending } = useLogout();
 
   //! Handle Logout User
   const handleLogoutUser = () => {

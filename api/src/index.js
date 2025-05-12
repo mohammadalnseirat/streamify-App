@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 //! 2- routes:
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
 
 //!3- listen to the port:
