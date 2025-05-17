@@ -71,3 +71,9 @@ export const rejectFriendRequest = async (userId) => {
   const res = await axiosInstance.put(`/users/friend-request/${userId}/reject`);
   return res.data;
 };
+
+// ! Function to get the stream token:
+export const getStreamToken = async () => {
+  const res = await axiosInstance.get("/chat/token");
+  return res.data;
+};
