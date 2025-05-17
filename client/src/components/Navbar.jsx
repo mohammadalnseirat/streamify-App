@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../lib/api";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
+import useNotification from "../hooks/useNotification";
 
 const Navbar = () => {
   const { authUser } = useAuthUser();
@@ -26,6 +27,7 @@ const Navbar = () => {
   // });
 
   const { logoutUserMutation, isPending } = useLogout();
+  const { inComingRequests } = useNotification();
 
   //! Handle Logout User
   const handleLogoutUser = () => {
@@ -48,8 +50,13 @@ const Navbar = () => {
           )}
           <div className="flex items-center gap-2 sm:gap-4 ml-auto">
             <Link to={"/notifications"}>
-              <button className="btn btn-ghost btn-circle group">
-                <BellIcon className="size-6 text-base-content opacity-70 group-hover:opacity-100" />
+              <button className="btn btn-ghost btn-circle group relative">
+                <BellIcon className="size-6 text-base-content opacity-70 group-hover:opacity-100 group-hover:text-primary group-hover:animate-wiggle transition-all" />
+                {inComingRequests.length > 0 && (
+                  <span className="absolute top-1.5 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+                    {inComingRequests.length}
+                  </span>
+                )}
               </button>
             </Link>
 

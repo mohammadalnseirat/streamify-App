@@ -96,7 +96,7 @@ export const sendFriendRequest = async (req, res, next) => {
 export const acceptFriendRequest = async (req, res, next) => {
   try {
     const { id: requestId } = req.params;
-    const currentUserId = req.user._id;
+    const currentUserId = req.user.id;
 
     //! check if the request exists:
     const friendRequest = await FriendRequest.findById(requestId);
@@ -142,7 +142,7 @@ export const acceptFriendRequest = async (req, res, next) => {
 export const rejectFriendRequest = async (req, res, next) => {
   try {
     const { id: requestId } = req.params;
-    const currentUserId = req.user._id;
+    const currentUserId = req.user.id;
 
 //     //! check if the request exists:
     const friendRequest = await FriendRequest.findById(requestId);

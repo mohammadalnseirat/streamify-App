@@ -21,11 +21,16 @@ export default {
           "75%": { "box-shadow": "0 20px 20px rgba(34, 139, 34, 0.4)" }, // bottom
           "100%": { "box-shadow": "-20px 0 20px rgba(34, 139, 34, 0.4)" }, // back to left
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-5deg)" },
+          "50%": { transform: "rotate(5deg)" },
+        },
       },
       animation: {
         "spin-slow": "spin-slow 5s linear infinite",
         "shadow-pulse": "shadow-pulse 10s infinite",
         "shadow-loop": "shadow-loop 20s ease-in-out infinite",
+        wiggle: "wiggle 1s ease-in-out infinite",
       },
     },
   },
