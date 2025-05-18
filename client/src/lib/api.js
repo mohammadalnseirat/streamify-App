@@ -2,13 +2,13 @@ import { axiosInstance } from "./axios";
 
 //! Function to signup:
 export const signup = async (userData) => {
-  const response = await axiosInstance.post("/auth/sign-up", userData);
+  const response = await axiosInstance.post("/v1/auth/sign-up", userData);
   return response.data;
 };
 
 //! Function to login:
 export const login = async (userData) => {
-  const response = await axiosInstance.post("/auth/log-in", userData);
+  const response = await axiosInstance.post("/v1/auth/log-in", userData);
   return response.data;
 };
 
