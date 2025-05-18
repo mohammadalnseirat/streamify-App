@@ -80,7 +80,16 @@ const ChatPage = () => {
 
   //! Function to handle Video Call:
   const handleVideoCall = () => {
-    console.log("Video call button clicked");
+    if (!channel) return;
+    if (channel) {
+      const callUrl = `${window.location.origin}/call/${channel.id}`;
+
+      channel.sendMessage({
+        text: `I have started a video call. Join me here: ${callUrl}`,
+      })
+
+      toast.success("Video call link sent successfully.");
+    }
   };
 
   //! check for loading:

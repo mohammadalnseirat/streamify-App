@@ -1,13 +1,11 @@
 import { Navigate, Route, Routes } from "react-router";
-import {
-  CallPage,
-  ChatPage,
-  HomePage,
-  LoginPage,
-  NotificationsPage,
-  OnboardingPage,
-  SignUpPage,
-} from "./pages";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import OnboardingPage from "./pages/OnboardingPage";
+import NotificationsPage from "./pages/NotificationsPage";
+import CallPage from "./pages/CallPage";
+import ChatPage from "./pages/ChatPage";
 import ToastifyContainer from "./components/ToastNotificatation";
 import { Layout, LoaderPage } from "./components";
 import useAuthUser from "./hooks/useAuthUser";
@@ -87,8 +85,16 @@ const App = () => {
           }
         />
         <Route
-          path="/call"
-          element={isAuthenticated ? <CallPage /> : <Navigate to={"/log-in"} />}
+          path="/call/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={false}>
+                <CallPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/log-in" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/chat/:id"
