@@ -119,16 +119,8 @@ export const logInUser = async (req, res, next) => {
 
 //! 3- Function to log out a user:
 export const logOutUser = async (req, res, next) => {
-  try {
     res.clearCookie("jwt_token");
-    return res.status(200).json({
-      success: true,
-      message: "Logged out successfully",
-    });
-  } catch (error) {
-    console.error("Error in log out user controller:", error);
-    next(error);
-  }
+    res.status(200).json({ success: true, message: "Logout successful" });
 };
 
 //! 4- Function to onboarding a user:
