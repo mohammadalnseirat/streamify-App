@@ -9,8 +9,8 @@ import ChatPage from "./pages/ChatPage";
 import ToastifyContainer from "./components/ToastNotificatation";
 import { Layout, LoaderPage } from "./components";
 import useAuthUser from "./hooks/useAuthUser";
-import NotFoundPage from "./pages/404";
 import { useThemeStore } from "./store/useThemeStore";
+import FriendsPage from "./pages/FriendsPage";
 
 const App = () => {
   //!get the Authenticated User:
@@ -85,6 +85,18 @@ const App = () => {
           }
         />
         <Route
+          path="/friends"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <FriendsPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/log-in" : "/onboarding"} />
+            )
+          }
+        />
+        <Route
           path="/call/:id"
           element={
             isAuthenticated && isOnboarded ? (
@@ -108,7 +120,6 @@ const App = () => {
             )
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <ToastifyContainer />
     </div>

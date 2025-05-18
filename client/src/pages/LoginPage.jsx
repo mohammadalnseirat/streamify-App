@@ -26,7 +26,7 @@ const LoginPage = () => {
       data-theme="forest"
       className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
     >
-      <div className="w-full max-w-5xl mx-auto bg-base-100 border border-primary/25 flex flex-col md:flex-row animate-shadow-pulse rounded-lg overflow-hidden">
+      <div className="w-full max-w-5xl mx-auto bg-base-100 border border-primary/25 flex flex-col md:flex-row  rounded-lg overflow-hidden">
         {/* Login Form Section */}
         <div className="w-full md:w-1/2 bg-base-100 flex flex-col sm:p-8">
           <div className="flex items-center justify-start gap-2 mb-4">

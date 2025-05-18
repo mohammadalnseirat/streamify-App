@@ -23,7 +23,7 @@ const SignUpPage = () => {
       className="min-h-screen py-10 sm:py-0 flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
-      <div className="border border-primary/50 flex flex-col lg:flex-row w-full max-w-5xl mx-auto rounded-lg animate-shadow-pulse bg-base-100 overflow-hiiden">
+      <div className="border border-primary/50 flex flex-col lg:flex-row w-full max-w-5xl mx-auto rounded-lg  bg-base-100 overflow-hiiden">
         {/* Left Side start Here */}
         <div className="w-full lg:w-1/2 flex flex-col p-4 sm:p-8">
           {/* Logo */}

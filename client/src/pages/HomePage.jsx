@@ -9,15 +9,17 @@ import {
 import { FriendsCard, LoadingUsers, NoFriendsFound } from "../components";
 import { useState, useEffect } from "react";
 import { capitalize } from "../lib/utils";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation,  useQueryClient } from "@tanstack/react-query";
 import {
-  getOutgoingRequests,
-  getRecommendedUsers,
-  getUserFriends,
   sendFriendRequest,
 } from "../lib/api";
 import { toast } from "react-toastify";
 import { getLanguageFlag } from "../components/FriendsCard";
+import useFriends from "../hooks/useFriends";
+import useRecommendedUser from "../hooks/useRecommendedUser";
+import useOutgoingRequest from "../hooks/useOutgoingRequest";
+
+
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [sendingRequestUserId, setSendingRequestUserId] = useState(null);
@@ -25,22 +27,13 @@ const HomePage = () => {
   const [rejectedRequestIds, setRejectedRequestIds] = useState(new Set()); // to Store Rejected Request IDs
 
   //! get the Friends:
-  const { data: friends = [], isLoading: loadingFriends } = useQuery({
-    queryKey: ["friends"],
-    queryFn: getUserFriends,
-  });
+  const {friends,loadingFriends } = useFriends();
 
   //! get the Recommended Users:
-  const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
-    queryKey: ["recommended-users"],
-    queryFn: getRecommendedUsers,
-  });
+  const {recommendedUsers,loadingUsers } = useRecommendedUser();
 
   //! get Outgoing Requests:
-  const { data: outgoingFriendRequests } = useQuery({
-    queryKey: ["outgoing-requests"],
-    queryFn: getOutgoingRequests,
-  });
+  const { outgoingFriendRequests} = useOutgoingRequest();
 
   //! send Friend Request:
   const { mutate: sendRequestMutation, isPending: isSendingRequest } =
