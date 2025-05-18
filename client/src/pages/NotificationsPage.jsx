@@ -1,14 +1,12 @@
 import { BellIcon, UserCheckIcon } from "lucide-react";
-import {
-  AcceptedRequestCard,
-  IncomingRequestCard,
-  LoadingNotification,
-  NoNotificationsFound,
-} from "../components";
 import useNotification from "../hooks/useNotification";
 import useAccept from "../hooks/useAccept";
 import useReject from "../hooks/useReject";
 import { useState } from "react";
+import IncomingRequestCard from "../components/IncomingRequestCard";
+import AcceptedRequestCard from "../components/AcceptedRequestCard";
+import LoadingNotification from "../components/LoadingNotification";
+import NoNotificationsFound from "../components/NoNotificationsFound";
 
 const NotificationsPage = () => {
   const [selectedUserAcceptRequest, setSelectedUserAcceptRequest] = useState(null);

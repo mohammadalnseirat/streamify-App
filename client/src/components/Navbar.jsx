@@ -1,9 +1,7 @@
-import { toast } from "react-toastify";
+
 import useAuthUser from "../hooks/useAuthUser";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../lib/api";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 import useNotification from "../hooks/useNotification";

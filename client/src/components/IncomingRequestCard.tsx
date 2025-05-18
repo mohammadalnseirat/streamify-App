@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { getLanguageFlag } from "./FriendsCard";
 import { capitalize } from "../lib/utils";
-import { CheckIcon, Loader2, ShipWheelIcon, TrashIcon } from "lucide-react";
+import { CheckIcon, Loader2, TrashIcon } from "lucide-react";
 
 const IncomingRequestCard = ({
   request,

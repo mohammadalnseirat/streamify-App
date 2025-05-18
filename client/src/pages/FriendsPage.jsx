@@ -1,8 +1,11 @@
 import React from "react";
 import useFriends from "../hooks/useFriends";
-import { FriendsCard, LoadingUsers, NoFriendsFound } from "../components";
+// import { FriendsCard, LoadingUsers, NoFriendsFound } from "../components";
 import { Link } from "react-router";
 import { UsersIcon } from "lucide-react";
+import NoFriendsFound from "../components/NoFriendsFound";
+import LoadingUsers from "../components/LoadingUsers";
+import FriendsCard from "../components/FriendsCard";
 
 const FriendsPage = () => {
   const { friends, loadingFriends } = useFriends();

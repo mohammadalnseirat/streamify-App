@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useAuthUser from "../hooks/useAuthUser";
 import {
   CameraIcon,

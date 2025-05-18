@@ -7,10 +7,11 @@ import NotificationsPage from "./pages/NotificationsPage";
 import CallPage from "./pages/CallPage";
 import ChatPage from "./pages/ChatPage";
 import ToastifyContainer from "./components/ToastNotificatation";
-import { Layout, LoaderPage } from "./components";
 import useAuthUser from "./hooks/useAuthUser";
 import { useThemeStore } from "./store/useThemeStore";
 import FriendsPage from "./pages/FriendsPage";
+import LoaderPage from "./components/LoaderPage";
+import Layout from "./components/Layout";
 
 const App = () => {
   //!get the Authenticated User:

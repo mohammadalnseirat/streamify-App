@@ -6,7 +6,6 @@ import {
   UserPlusIcon,
   UsersIcon,
 } from "lucide-react";
-import { FriendsCard, LoadingUsers, NoFriendsFound } from "../components";
 import { useState, useEffect } from "react";
 import { capitalize } from "../lib/utils";
 import { useMutation,  useQueryClient } from "@tanstack/react-query";
@@ -14,10 +13,12 @@ import {
   sendFriendRequest,
 } from "../lib/api";
 import { toast } from "react-toastify";
-import { getLanguageFlag } from "../components/FriendsCard";
+import FriendsCard, { getLanguageFlag } from "../components/FriendsCard";
 import useFriends from "../hooks/useFriends";
 import useRecommendedUser from "../hooks/useRecommendedUser";
 import useOutgoingRequest from "../hooks/useOutgoingRequest";
+import LoadingUsers from "../components/LoadingUsers";
+import NoFriendsFound from "../components/NoFriendsFound";
 
 
 const HomePage = () => {
